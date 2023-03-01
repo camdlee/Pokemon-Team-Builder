@@ -1,5 +1,12 @@
 from flask import Flask, render_template, request
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 import requests
+
+class PokemonForm(FlaskForm):
+    pokemon_name = StringField('name', validators=[DataRequired()])
+    submit_btn = SubmitField('Submit')
 
 app = Flask(__name__)
 
@@ -9,9 +16,10 @@ def home():
 
 @app.route('/pokemonapi', methods=['GET', 'POST'])
 def pokemonapi():
+    form = PokemonForm()
     print(request.method)
-    if request.method == 'POST':
-        name = request.form.get('name')
+    if request.method == 'POST' and form.validate_on_submit():
+        name = form.pokemon_name.data
         print(name)
         url = f'https://pokeapi.co/api/v2/pokemon/{name.lower()}'
         response = requests.get(url)

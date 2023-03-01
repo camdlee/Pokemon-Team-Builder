@@ -2,13 +2,17 @@
 
 {% block content %}
 <br>
+<h1>Pokemon Properties Search</h1>
+<br>
 <form action="/pokemonapi" method="POST">
+  {{form.hidden_tag}}
     <div class="form-group">
       <label for="name">Pokemon Name</label>
-      <input type="text" class="form-control" id="name" name="name">
+      {{form.pokemon_name.label()}}
+      {{form.pokemon_name(class="form-control")}}
     </div>
     <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    {{form.submit_btn(class="fbtn btn-primary")}}
   </form>
     <br>
     {% if new_pokemon_data %}
