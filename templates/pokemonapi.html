@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<form action="/pokemonapi" method="POST">
+    <div class="form-group">
+      <label for="name">Pokemon Name</label>
+      <input type="text" class="form-control" id="name" name="name">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+    <br>
+    {% if new_pokemon_data %}
+    <table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Ability</th>
+        <th scope="col">Base EXP</th>
+        <th scope="col">Sprite URL</th>
+        <th scope="col">Attack Base Stat</th>
+        <th scope="col">HP Base Stat</th>
+        <th scope="col">Defense Base Stat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">{{new_pokemon_data[0]['Name']}}</th>
+        <td>{{new_pokemon_data[0]['Ability']}}</td>
+        <td>{{new_pokemon_data[0]['Base_Exp']}}</td>
+        <td>{{new_pokemon_data[0]['Sprite_url']}}</td>
+        <td>{{new_pokemon_data[0]['Attack_base_stat']}}</td>
+        <td>{{new_pokemon_data[0]['HP_base_stat']}}</td>
+        <td>{{new_pokemon_data[0]['Defense_base_stat']}}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}
