@@ -3,12 +3,13 @@
 from flask import render_template, request
 from app import app
 import requests
-from app.forms import PokemonForm
+from app.forms import PokemonForm, RegistrationForm, LoginForm
+from config import Config
 
 #----- Home page ------
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('home.html', methods=['GET'])
+    return render_template('home.html')
 
 
 #----- Pokemon API ------
@@ -40,3 +41,31 @@ def pokemonapi():
             error = 'Pokemon does not exist. Please type in a pokemon'
             return render_template('pokemonapi.html', form=form, error=error)
     return render_template('pokemonapi.html', form=form)
+
+
+#----- Registration ----
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+    form = RegistrationForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        success = 'Success! You are now registered.'
+        return render_template('/registration.html', form=form, success=success)
+    else:
+        error = 'Invalid. Please resubmit registration properly'
+        return render_template('/registration.html', form=form, error=error)
+    return render_template('/registration.html', form=form)
+
+
+#----- Login -----
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        email = form.email.data.lower()
+        password = form.password.data
+        if email in app.config.get('REGISTERED_USERS') and password == app.config.get('REGISTERED_USERS').get(email).get('password'):
+            return f'Successfully logged in! Welcome {app.config.get("REGISTERED_USERS").get(email).get("name")}'
+        else:
+            error = 'Invalid Email/Password'
+            return render_template('login.html', form=form, error=error)
+    return render_template('login.html', form=form)
