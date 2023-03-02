@@ -13,7 +13,8 @@
     <br>
     {{form.submit_btn(class="fbtn btn-primary")}}
   </form>
-    <br>
+  <br>
+
     {% if new_pokemon_data %}
     <table class="table table-dark">
     <thead>
@@ -39,5 +40,8 @@
       </tr>
     </tbody>
   </table>
-{% endif %}
+{% endif %}  
+  <div>
+    <small style = 'color:red'>{{error}}</small>  
+  </div>
 {% endblock %}

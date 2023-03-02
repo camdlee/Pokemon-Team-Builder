@@ -38,5 +38,5 @@ def pokemonapi():
             return render_template('pokemonapi.html', new_pokemon_data=new_pokemon_data, form=form)
         else:
             error = 'Pokemon does not exist. Please type in a pokemon'
-            return error
+            return render_template('pokemonapi.html', form=form, error=error)
     return render_template('pokemonapi.html', form=form)
