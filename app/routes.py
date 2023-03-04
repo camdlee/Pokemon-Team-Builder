@@ -28,7 +28,7 @@ def register():
             'first_name': form.first_name.data.title(),
             'last_name': form.last_name.data.title(),
             'email': form.email.data.lower(),
-            'password': form.email.data
+            'password': form.password.data
         }
 
         # Create instance of User
@@ -52,10 +52,11 @@ def login():
     if request.method == 'POST' and form.validate_on_submit():
         email = form.email.data.lower()
         password = form.password.data
-        
+        print(password)
         # Query from database
         queried_user = User.query.filter_by(email=email).first()
-        if queried_user and check_password_hash(queried_user.password, password):
+        print(queried_user.password)
+        if queried_user and queried_user.check_hash_password(password):
             login_user(queried_user)
             flash(f'Successfully Logged In! Welcome back, {queried_user.first_name}!', 'success')
             return redirect(url_for('home'))
@@ -94,7 +95,7 @@ def pokemonapi():
                 'Type': pokemon_data['types'][0]['type']['name'],
                 'Ability': pokemon_data['abilities'][0]['ability']['name'],
                 'Base_Exp': pokemon_data['base_experience'],
-                'Sprite_url': pokemon_data['sprites']['front_shiny'],
+                'Sprite_url': pokemon_data['sprites']['front_default'],
                 'Attack_base_stat': pokemon_data['stats'][1]['base_stat'],
                 'HP_base_stat': pokemon_data['stats'][0]['base_stat'],
                 'Defense_base_stat': pokemon_data['stats'][2]['base_stat']
@@ -107,4 +108,8 @@ def pokemonapi():
             return render_template('pokemonapi.html', form=form)
     return render_template('pokemonapi.html', form=form)
 
-    
+
+#----- Pokemon Region ------
+@app.route('/pokemon_region', methods=['GET', 'POST'])
+def pokemon_region():
+    return render_template('pokemon_region.html')

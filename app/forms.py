@@ -28,5 +28,9 @@ class LoginForm(FlaskForm):
 
 
 # ------ Pokemon Team From -------
+# class PokemonRegionForm(FlaskForm):
+
+
+# ------ Pokemon Team From -------
 class PokemonTeamForm(FlaskForm):
     team = StringField('')

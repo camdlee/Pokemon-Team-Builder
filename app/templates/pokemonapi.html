@@ -11,7 +11,6 @@
           <label for="name">Pokemon Name</label>
           {{form.pokemon_name(class="form-control")}}
         </div>
-        <br>
         {{form.submit_btn(class="btn btn-primary")}}
       </form>
       <br>
@@ -19,11 +18,11 @@
         <table class="table table-dark">
         <thead>
           <tr>
+            <th scope="col"></th>
             <th scope="col">Name</th>
             <th scope="col">Type</th>
             <th scope="col">Ability</th>
             <th scope="col">Base EXP</th>
-            <th scope="col">Sprite URL</th>
             <th scope="col">Attack Base Stat</th>
             <th scope="col">HP Base Stat</th>
             <th scope="col">Defense Base Stat</th>
@@ -31,11 +30,11 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row">{{new_pokemon_data[0]['Name']}}</th>
+            <th scope="row"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="{{new_pokemon_data[0]['Name']}}"></th>
+            <td>{{new_pokemon_data[0]['Name']}}</td>
             <td>{{new_pokemon_data[0]['Type']}}</td>
             <td>{{new_pokemon_data[0]['Ability']}}</td>
             <td>{{new_pokemon_data[0]['Base_Exp']}}</td>
-            <td>{{new_pokemon_data[0]['Sprite_url']}}</td>
             <td>{{new_pokemon_data[0]['Attack_base_stat']}}</td>
             <td>{{new_pokemon_data[0]['HP_base_stat']}}</td>
             <td>{{new_pokemon_data[0]['Defense_base_stat']}}</td>
