@@ -1,3 +1,4 @@
+
 # -------- IMPORTS ---------
 from app import db, login
 from flask_login import UserMixin # Only use on your User Class
@@ -33,8 +34,6 @@ class User(UserMixin, db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
-
-
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)

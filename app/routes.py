@@ -1,5 +1,5 @@
 
-# ----- IIMPORTS ------
+# ----- IMPORTS ------
 from flask import render_template, request, flash, redirect, url_for
 import requests
 from app.forms import PokemonForm, RegistrationForm, LoginForm
@@ -7,7 +7,6 @@ from app import app
 from app.models import User
 from werkzeug.security import check_password_hash
 from flask_login import login_user, current_user, logout_user
-
 
 
 # ------- ROUTES ------
@@ -92,6 +91,7 @@ def pokemonapi():
             new_pokemon_data = []
             pokemon_info_dict = {
                 'Name': pokemon_name.title(),
+                'Type': pokemon_data['types'][0]['type']['name'],
                 'Ability': pokemon_data['abilities'][0]['ability']['name'],
                 'Base_Exp': pokemon_data['base_experience'],
                 'Sprite_url': pokemon_data['sprites']['front_shiny'],
@@ -102,8 +102,9 @@ def pokemonapi():
             new_pokemon_data.append(pokemon_info_dict)
             return render_template('pokemonapi.html', new_pokemon_data=new_pokemon_data, form=form)
         else:
-            error = 'Pokemon does not exist. Please type in a pokemon'
-            return render_template('pokemonapi.html', form=form, error=error)
+            error = 'Pokemon entry not found'
+            flash(f'{error}', 'danger')
+            return render_template('pokemonapi.html', form=form)
     return render_template('pokemonapi.html', form=form)
 
     

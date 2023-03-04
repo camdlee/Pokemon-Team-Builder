@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+
+{% block title%}
+Pokemon Region
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+{% endblock%}
+
+{%block content%}
+<h1 class = 'login'>Pokemon Region Page</h1>
+<br>
+<div class = 'center-group'>
+<form action="{{url_for('login')}}" method="POST">
+    {{form.hidden_tag()}}
+    <div>
+        Please Select a Region Map
+    </div>
+    <div>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Kanto</a></li>
+              <li><a class="dropdown-item" href="#">Jhoto</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Hoenn</a></li>
+              <li><a class="dropdown-item" href="#">Sinnoh</a></li>
+              <li><a class="dropdown-item" href="#">Unova</a></li>
+            </ul>
+        </li>
+    </div>
+</form>
+</div>
+<br>
+<div>
+    <small style = 'color: red'>{{error}}</small>
+</div>
+{% endblock %}
