@@ -1,25 +1,9 @@
 
-# ----- Imports ------
+# ----- IMPORTS ------
 import os
 
-#------ Config -----
+#------ CONFIG -----
 class Config():
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    REGISTERED_USERS = {
-        'dylank@thieves.com': {
-            'name': 'Dylan',
-            'password': 'ilovemydog'
-            },
-        'christian@thieves.com': {
-            'name': 'Christian',
-            'password': 'test123'
-        },
-        'devin@thieves.com': {
-            'name': 'Devin',
-            'password': 'Password'
-        },
-        'cameron@thieves.com': {
-            'name': 'Cameron',
-            'password': 'Thieves-110'
-        }
-    }
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS')

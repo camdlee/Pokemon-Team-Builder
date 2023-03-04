@@ -1,14 +1,14 @@
 {%extends 'base.html'%}
 
 {% block title%}
-Login
+Register
 {% endblock %}
 
 
 {%block content%}
-<h1 class = 'registration'>Registration Page</h1>
+<h1 class = 'register'>Registration Page</h1>
 <br>
-<form action="/registration" method="POST">
+<form action="{{url_for('register')}}" method="POST">
     {{form.hidden_tag()}}
     <div class="form-group">
         {{form.first_name.label()}}
@@ -23,6 +23,14 @@ Login
     <div class="form-group">
         {{form.email.label()}}
         {{form.email(class="form-control")}}
+    </div>
+    <div class="form-group">
+        {{form.password.label()}}
+        {{form.password(class="form-control")}}
+    </div>
+    <div class="form-group">
+        {{form.confirm_password.label()}}
+        {{form.confirm_password(class="form-control")}}
     </div>
     {{form.submit_btn(class="btn btn-primary")}}
 </form>

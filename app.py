@@ -1,3 +1,3 @@
 
-# ----- Imports ------
+# ----- IMPORTS ------
 from app import app
