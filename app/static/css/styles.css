@@ -1,9 +1,9 @@
-*{
+/* *{
     margin: 0;
     padding: 0;
     background-color: #1a1a1d;
     color: #c3073f
-}
+} */
 
 
 /* NAV BAR */
@@ -44,7 +44,7 @@ h1{
 
 /* FORM GROUP */
 .center-group{
-    padding: 0 10%;
+    padding: 0 20%;
     min-width: none;
 }
 
@@ -55,4 +55,20 @@ h1{
 /* POKEMON TABLE */
 .table{
     margin-top: 1%;
+}
+
+
+/* IMAGES */
+.img_container{
+    align-items: center;
+    padding: auto;
+}
+
+
+
+/* FOOTER */
+.footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0
 }

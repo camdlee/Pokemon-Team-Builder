@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{{url_for('home')}}">Home</a>
+      <a class="navbar-brand" href="{{url_for('main.home')}}">Home</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -8,23 +8,34 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           {%if current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('pokemonapi')}}">Pokedex</a>
+            <a class="nav-link" href="{{url_for('main.pokemonapi')}}">Pokedex</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('pokemon_region')}}">Pokemon Region</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-          </li>
+            <a class="nav-link" href="{{url_for('main.pokemon_region')}}">Pokemon Region</a>
+          </li> 
           {% else %}         
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('register')}}">Trainer Registration</a>
+            <a class="nav-link" href="{{url_for('auth.register')}}">Trainer Sign Up</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('login')}}">Trainer Login</a>
+            <a class="nav-link" href="{{url_for('auth.login')}}">Trainer Login</a>
           </li>
           {% endif %}
         </ul>
+      </div>
+      <div>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Hello, {{current_user.first_name}}</a>
+            </li>           
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('auth.edit_profile')}}">Edit Profile</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('auth.logout')}}">Logout</a>
+            </li> 
+          </ul>    
       </div>
     </div>
   </nav>

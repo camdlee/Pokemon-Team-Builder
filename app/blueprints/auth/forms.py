@@ -27,6 +27,14 @@ class LoginForm(FlaskForm):
     submit_btn = SubmitField('Login')
 
 
+# --------- Edit Profile --------
+class EditProfileForm(FlaskForm):
+    first_name = StringField('First Name: ', validators=[DataRequired()])
+    last_name = StringField('Last Name: ', validators=[DataRequired()])
+    email = EmailField('Email: ', validators=[DataRequired()])
+    submit_btn = SubmitField('Update')
+
+
 # ------ Pokemon Team From -------
 # class PokemonRegionForm(FlaskForm):
 
