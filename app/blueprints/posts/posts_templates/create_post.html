@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+
+{% block title%}
+Create Post
+{% endblock %}
+
+
+{%block content%}
+    <h1 class = 'create_post'>Create Post Page</h1>
+<br>
+    <div class = 'center-group'>
+        <form action="{{url_for('posts.create_post')}}" method="POST">
+            {{form.hidden_tag()}}
+            <div class="form-group">
+                {{form.img_url.label()}}
+                {{form.img_url(class='form-control')}}
+            </div>
+            <div class="form-group">
+                {{form.title.label()}}
+                {{form.title(class="form-control")}}
+            </div>
+            <div class="form-group">
+                {{form.caption.label()}}
+                {{form.caption(class="form-control")}}
+            </div>
+            {{form.submit_btn(class="btn btn-primary")}}
+        </form>
+    </div>
+<br>
+    <div>
+        <small style = 'color: red'>{{error}}</small>
+    </div>
+{% endblock %}

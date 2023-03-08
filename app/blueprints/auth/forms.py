@@ -4,11 +4,6 @@ from wtforms import EmailField, PasswordField, SubmitField,StringField
 from wtforms.validators import DataRequired, EqualTo
 from app.models import User
 
-# ------ Pokedex Form ------
-class PokemonForm(FlaskForm):
-    pokemon_name = StringField('Pokemon Name', validators=[DataRequired()])
-    submit_btn = SubmitField('Submit')
-
 
 # ------ Registration Form ------
 class RegistrationForm(FlaskForm):
@@ -33,12 +28,3 @@ class EditProfileForm(FlaskForm):
     last_name = StringField('Last Name: ', validators=[DataRequired()])
     email = EmailField('Email: ', validators=[DataRequired()])
     submit_btn = SubmitField('Update')
-
-
-# ------ Pokemon Team From -------
-# class PokemonRegionForm(FlaskForm):
-
-
-# ------ Pokemon Team From -------
-class PokemonTeamForm(FlaskForm):
-    team = StringField('')

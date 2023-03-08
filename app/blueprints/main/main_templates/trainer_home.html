@@ -2,7 +2,7 @@
 
 {% block content %}
     <br>
-        <h1>Welcome to the World of Pokemon</h1>
+        <h1>Welcome to the World of Pokemon {{user.first_name}}</h1>
     <br>
     <div class = 'center-group'>
     {% for user in users %}
@@ -18,8 +18,7 @@
         {% endif %}
     {% endfor %}
     </div>
-    <div class="img-container">
+    <!-- <div class="img-container">
         <img src="/static/images/pokemon_poster.jpg">
-    </div>
+    </div> -->
 {% endblock %}
-
