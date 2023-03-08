@@ -84,5 +84,5 @@ class Post(db.Model):
         db.session.add(self)
         db.session.commit()
 
-class CatchPokemon(db.Model):
+# class CatchPokemon(db.Model):
     
