@@ -78,7 +78,7 @@ class Captured(db.Model):
 
     # Use this method to register our pokemon attributes
     def from_dict(self, data):
-        self.pokemon_name = data['name']
+        self.pokemon_name = data['pokemon_name']
         self.pokemon_type = data['type']
         self.ability = data['ability']
         self.base_exp = data['base_exp']       

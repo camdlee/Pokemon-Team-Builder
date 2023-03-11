@@ -9,20 +9,17 @@ from ...models import User, Captured
 
 # ------- ROUTES ------
 
-#----- Pokemon API ------
+#----- Pokemon API Search ------
 @pokemon.route('/pokemonapi', methods=['GET', 'POST'])
 @login_required
 def pokemonapi():
     form = PokemonForm()
-    print(request.method)
     if request.method == 'POST' and form.validate_on_submit():
         pokemon_name = form.pokemon_name.data.lower()
-        print(pokemon_name)
         url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}'
         response = requests.get(url)
         if response.ok:
             pokemon_data = response.json()
-            print(pokemon_data)
             new_pokemon_data = []
             pokemon_info_dict = {
                 'pokemon_name': pokemon_data["forms"][0]["name"],
@@ -33,11 +30,7 @@ def pokemonapi():
                 'attack_base_stat': pokemon_data['stats'][1]['base_stat'],
                 'hp_base_stat': pokemon_data['stats'][0]['base_stat'],
                 'defense_base_stat': pokemon_data['stats'][2]['base_stat']
-            }
-            for pokemon in current_user.team:
-                if pokemon.pokemon_name == pokemon_info_dict['pokemon_name']:
-                    flash(f'That pokemon is already on your team! Please choose another.', 'danger')
-                    return redirect(url_for('pokemon.pokemonapi'))
+            }  
             new_pokemon_data.append(pokemon_info_dict)
             return render_template('pokemonapi.html', new_pokemon_data=new_pokemon_data, form=form)
         else:
@@ -61,7 +54,7 @@ def catch(pokemon_name):
     # will query table to see if pokemon is in caught table
     captured_pokemon = Captured.query.filter_by(pokemon_name=pokemon_name).first()
     form = PokemonForm()
-    
+
     if captured_pokemon:
         if current_user.team.count() < 5:
             current_user.catch(captured_pokemon)
@@ -71,30 +64,39 @@ def catch(pokemon_name):
             flash(f'Warning Team is full!', 'warning')
             return redirect (url_for('pokemon.pokemonapi'))
     else:
+        #checks to see if your team is less than 5
         if current_user.team.count() < 5:
-            pokemon_name = pokemon_name
-            url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}'
-            response = requests.get(url)
-            if response.ok:
-                pokemon_data = response.json()
-                print(pokemon_data)
-                pokemon_info_dict = {
-                    'pokemon_name': pokemon_data["forms"][0]["name"].title(),
-                    'type': pokemon_data['types'][0]['type']['name'],
-                    'ability': pokemon_data['abilities'][0]['ability']['name'],
-                    'base_exp': pokemon_data['base_experience'],
-                    'sprite_url': pokemon_data['sprites']['front_default'],
-                    'attack_base_stat': pokemon_data['stats'][1]['base_stat'],
-                    'hp_base_stat': pokemon_data['stats'][0]['base_stat'],
-                    'defense_base_stat': pokemon_data['stats'][2]['base_stat']
-                }
-                new_pokemon = Captured()
-                new_pokemon.from_dict(pokemon_info_dict)
-                new_pokemon.save_to_db()
+        # checks to see if you already have the pokemon on your team
+            for pokemon in current_user.team:
+                # if a name in my team is equal to what was c
+                if pokemon.pokemon_name == pokemon_name:
+                    flash(f'That pokemon is already on your team! Please choose another.', 'danger')
+                    return redirect(url_for('pokemon.pokemonapi'))
+                #else if it's not in the captured table, let's add it to the table and assign to user
+                else:
+                    pokemon_name = pokemon_name
+                    url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}'
+                    response = requests.get(url)
+                    if response.ok:
+                        pokemon_data = response.json()
+                        print(pokemon_data)
+                        pokemon_info_dict = {
+                            'pokemon_name': pokemon_data["forms"][0]["name"].title(),
+                            'type': pokemon_data['types'][0]['type']['name'],
+                            'ability': pokemon_data['abilities'][0]['ability']['name'],
+                            'base_exp': pokemon_data['base_experience'],
+                            'sprite_url': pokemon_data['sprites']['front_default'],
+                            'attack_base_stat': pokemon_data['stats'][1]['base_stat'],
+                            'hp_base_stat': pokemon_data['stats'][0]['base_stat'],
+                            'defense_base_stat': pokemon_data['stats'][2]['base_stat']
+                        }
+                        new_pokemon = Captured()
+                        new_pokemon.from_dict(pokemon_info_dict)
+                        new_pokemon.save_to_db()
 
-                current_user.catch(new_pokemon)            
-                return redirect (url_for('pokemon.pokemonapi'))
-    return redirect (url_for('pokemon.pokemonapi'))
+                        current_user.catch(new_pokemon)            
+                        return redirect (url_for('pokemon.pokemonapi'))
+    return render_template('pokemonapi.html', form=form)
 
 
 
