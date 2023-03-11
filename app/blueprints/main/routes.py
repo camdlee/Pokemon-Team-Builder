@@ -10,7 +10,6 @@ from ...models import User
 
 #----- Home page ------
 @main.route('/', methods=['GET'])
-@login_required
 def home():
     users = User.query.all()
     return render_template('home.html', users=users)

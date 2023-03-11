@@ -5,16 +5,10 @@ from flask_login import UserMixin # Only use on your User Class
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-followers = db.Table(
-    'follower', 
-    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('followed_id', db.Integer, db.ForeignKey('user.id')),
+pokemon_team = db.Table('pokemon_team', 
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('pokemon_id', db.Integer, db.ForeignKey('captured.id'))    
 )
-
-# Could do it this way but above is preferred
-# class Followers(db.Model):
-#     follower_id = db.Column('follower_id', db.Integer, db.ForeignKey('user.id'))
-#     followed_id = db.Column('followed_id', db.Integer, db.ForeignKey('user.id')),
 
 
 # -------- CLASSES ---------
@@ -25,13 +19,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
-    followed = db.relationship('User',
-        secondary = followers,
-        primaryjoin = (followers.columns.follower_id == id), 
-        secondaryjoin = (followers.columns.followed_id == id),
-        backref = db.backref('followers', lazy='dynamic'),
-        lazy = 'dynamic')
+    # posts = db.relationship('Post', backref='author', lazy='dynamic')
+    team = db.relationship('Captured',
+                secondary = pokemon_team,
+                backref = 'owner',
+                lazy = 'dynamic')
     
     # hashes our password
     def hash_password(self, original_password): 
@@ -57,32 +49,54 @@ class User(UserMixin, db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+    # catch to team
+    def catch(self, pokemon):
+        self.team.append(pokemon)
+        db.session.commit()
+
+    # remove from team
+    def remove(self, pokemon):
+        self.team.remove(pokemon)
+        db.session.commit()
+
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
-class Post(db.Model):
+
+class Captured(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    img_url = db.Column(db.String, nullable=False)
-    title = db.Column(db.String)
-    caption = db.Column(db.String)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    # Foreign Key to User Table
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # another way to do it is :
-    #user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    pokemon_name = db.Column(db.String)
+    pokemon_type = db.Column(db.String)
+    ability = db.Column(db.String)
+    base_exp = db.Column(db.String)
+    sprite_url = db.Column(db.String)
+    attack_base_stat = db.Column(db.String)
+    hp_base_stat = db.Column(db.String)
+    defense_base_stat = db.Column(db.String)
 
-    # Use this method to register our user attributes
+    # Use this method to register our pokemon attributes
     def from_dict(self, data):
-        self.img_url = data['img_url']
-        self.title = data['title']
-        self.caption = data['caption']
-        self.user_id = data['user_id']
+        self.pokemon_name = data['name']
+        self.pokemon_type = data['type']
+        self.ability = data['ability']
+        self.base_exp = data['base_exp']       
+        self.sprite_url = data['sprite_url']
+        self.attack_base_stat = data['attack_base_stat']
+        self.hp_base_stat = data['hp_base_stat']
+        self.defense_base_stat = data['defense_base_stat']
 
-    # Save to our database
+    # Save the pokemon to the captured database
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
-# class CatchPokemon(db.Model):
-    
+    # Update database
+    def update_db(self):
+        db.session.commit()        
+
+    # Release the pokemon from the captured database
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()

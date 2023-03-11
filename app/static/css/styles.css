@@ -1,9 +1,8 @@
-/* *{
+*{
     margin: 0;
     padding: 0;
-    background-color: #1a1a1d;
     color: #c3073f
-} */
+}
 
 
 /* NAV BAR */
@@ -31,6 +30,7 @@
     color: #c3073f;
 }
 
+
 /* SUBMIT BUTTON */
 .btn-primary{
     background-color: #c3073f;
@@ -40,7 +40,9 @@
 h1{
     text-align: center;
     padding-top: 1%;
+    color: #c3073f
 }
+
 
 /* FORM GROUP */
 .center-group{
@@ -50,12 +52,15 @@ h1{
 
 .form-group{
     padding-bottom: 2%;
+    font-weight: bold;
 }
+
 
 /* POKEMON TABLE */
 .table{
     margin-top: 1%;
 }
+
 
 
 /* IMAGES */

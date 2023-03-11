@@ -13,6 +13,6 @@ class PokemonForm(FlaskForm):
 # class CatchPokemonForm(FlaskForm):
 #     submit_btn = SubmitField('Submit')
 
-# ------ Pokemon Team From -------
-class PokemonTeamForm(FlaskForm):
-    team = StringField('')
+# # ------ Pokemon Team From -------
+# class PokemonTeamForm(FlaskForm):
+#     team = StringField('')
