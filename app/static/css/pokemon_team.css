@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+    color: #c3073f
+}
+
+.center-group{
+    padding: 0 20%;
+    min-width: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 2%;
+}
+
+.overflow-text{
+    max-width: 10px;
+    inline-size: 150px;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
+

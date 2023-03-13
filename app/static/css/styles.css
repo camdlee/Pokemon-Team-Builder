@@ -6,28 +6,21 @@
 
 
 /* NAV BAR */
-.navbar {
-    background-color: #1a1a1d;
-    border: #1a1a1d;
-}
-.navbar-expand-lg{
-    border: #1a1a1d;
-}
-.bg-body-tertiary{
-    border: #1a1a1d;
-}
-.container-fluid{
-    border: #1a1a1d;
-}
-.navbar-nav{
-    border: #1a1a1d;
+
+nav{
+    background-color:#c5eae6;
 }
 
 .navbar-brand{
+    font-family: 'Pokemon Solid', sans-serif;
     color: #c3073f;
 }
+
 .nav-link{
     color: #c3073f;
+}
+.nav-item{
+    font-weight: bold;
 }
 
 
@@ -38,9 +31,50 @@
 }
 
 h1{
+    font-family: 'Pokemon Solid', sans-serif;
     text-align: center;
     padding-top: 1%;
     color: #c3073f
+}
+
+h3{
+    text-align: center;
+    padding-top: 1%;
+    color: #c3073f
+}
+
+body{
+    background-image: url("https://images3.alphacoders.com/238/238187.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+label{
+    font-weight: bold;
+    font-size: large;
+}
+
+/* ----------------------CONTAINER-------------------- */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ----------------------CARD CONTAINER-------------------- */
+.card-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card{
+    background-color:#57a0a6;
+    margin: 2% 2%;
 }
 
 
@@ -51,19 +85,17 @@ h1{
 }
 
 .form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     padding-bottom: 2%;
-    font-weight: bold;
 }
-
-
-
-
 
 /* POKEMON TABLE */
 .table{
     margin-top: 1%;
 }
-
 
 
 /* IMAGES */
@@ -77,10 +109,17 @@ h1{
 
 
 
+.overflow-text{
+    inline-size: 150px;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
 /* FOOTER */
 .footer {
     position: fixed;
     width: 100%;
     bottom: 0;
-    color: #c3073f
+    color: #c3073f;
+    background-color:#c5eae6
 }

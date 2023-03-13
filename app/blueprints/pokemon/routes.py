@@ -31,6 +31,8 @@ def pokemonapi():
                 'hp_base_stat': pokemon_data['stats'][0]['base_stat'],
                 'defense_base_stat': pokemon_data['stats'][2]['base_stat']
             }  
+
+                
             new_pokemon_data.append(pokemon_info_dict)
             return render_template('pokemonapi.html', new_pokemon_data=new_pokemon_data, form=form)
         else:
@@ -38,6 +40,7 @@ def pokemonapi():
             flash(f'{error}', 'danger')
             return render_template('pokemonapi.html', form=form)
     return render_template('pokemonapi.html', form=form)
+
 
 # ---- View pokemon team -----
 @pokemon.route('/pokemon_team')
@@ -48,60 +51,60 @@ def pokemon_team():
 
 
 # ----- Catch Pokemon ------
-@pokemon.route('/catch/<pokemon_name>')
+@pokemon.route('/catch/<pokemon_name>', methods=['GET', 'POST'])
 @login_required
 def catch(pokemon_name):
     # will query table to see if pokemon is in caught table
     captured_pokemon = Captured.query.filter_by(pokemon_name=pokemon_name).first()
     form = PokemonForm()
+    print(captured_pokemon)
 
     if captured_pokemon:
         if current_user.team.count() < 5:
+            print('check count')
             current_user.catch(captured_pokemon)
             flash(f'Successfully caught {pokemon_name}!', 'success')
             return redirect (url_for('pokemon.pokemonapi'))
         else:
-            flash(f'Warning Team is full!', 'warning')
+            flash('Warning Team is full!', 'warning')
             return redirect (url_for('pokemon.pokemonapi'))
     else:
-        #checks to see if your team is less than 5
         if current_user.team.count() < 5:
-        # checks to see if you already have the pokemon on your team
-            for pokemon in current_user.team:
-                # if a name in my team is equal to what was c
-                if pokemon.pokemon_name == pokemon_name:
-                    flash(f'That pokemon is already on your team! Please choose another.', 'danger')
-                    return redirect(url_for('pokemon.pokemonapi'))
-                #else if it's not in the captured table, let's add it to the table and assign to user
-                else:
-                    pokemon_name = pokemon_name
-                    url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}'
-                    response = requests.get(url)
-                    if response.ok:
-                        pokemon_data = response.json()
-                        print(pokemon_data)
-                        pokemon_info_dict = {
-                            'pokemon_name': pokemon_data["forms"][0]["name"].title(),
-                            'type': pokemon_data['types'][0]['type']['name'],
-                            'ability': pokemon_data['abilities'][0]['ability']['name'],
-                            'base_exp': pokemon_data['base_experience'],
-                            'sprite_url': pokemon_data['sprites']['front_default'],
-                            'attack_base_stat': pokemon_data['stats'][1]['base_stat'],
-                            'hp_base_stat': pokemon_data['stats'][0]['base_stat'],
-                            'defense_base_stat': pokemon_data['stats'][2]['base_stat']
-                        }
-                        new_pokemon = Captured()
-                        new_pokemon.from_dict(pokemon_info_dict)
-                        new_pokemon.save_to_db()
+            pokemon_name = pokemon_name
+            url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}'
+            response = requests.get(url)
+            if response.ok:
+                pokemon_data = response.json()
+                pokemon_info_dict = {
+                    'pokemon_name': pokemon_data["forms"][0]["name"].title(),
+                    'type': pokemon_data['types'][0]['type']['name'],
+                    'ability': pokemon_data['abilities'][0]['ability']['name'],
+                    'base_exp': pokemon_data['base_experience'],
+                    'sprite_url': pokemon_data['sprites']['front_default'],
+                    'attack_base_stat': pokemon_data['stats'][1]['base_stat'],
+                    'hp_base_stat': pokemon_data['stats'][0]['base_stat'],
+                    'defense_base_stat': pokemon_data['stats'][2]['base_stat']
+                }
+                for pokemon in current_user.team:
+                    if pokemon.pokemon_name == pokemon_info_dict['pokemon_name']:
+                        flash(f'That pokemon is already on your team! Please choose another pokemon.', 'danger')
+                        return redirect(url_for('pokemon.pokemonapi'))
+                new_pokemon = Captured()
+                new_pokemon.from_dict(pokemon_info_dict)
+                new_pokemon.save_to_db()
 
-                        current_user.catch(new_pokemon)            
-                        return redirect (url_for('pokemon.pokemonapi'))
-    return render_template('pokemonapi.html', form=form)
+                current_user.catch(new_pokemon)
+                flash(f'Successfully caught {pokemon_name}!', 'success')            
+                return redirect (url_for('pokemon.pokemonapi'))
+        else:
+            flash('Warning Team is full!', 'warning')
+            return redirect (url_for('pokemon.pokemonapi'))
+    return redirect (url_for('pokemon.pokemonapi'))
 
 
 
 # ------ Remove a Pokemon from Team ------
-@pokemon.route('/remove/<pokemon_name>')
+@pokemon.route('/remove/<pokemon_name>', methods=['GET', 'POST'])
 @login_required
 def remove(pokemon_name):
     my_team = current_user.team
@@ -112,13 +115,9 @@ def remove(pokemon_name):
     return redirect (url_for('pokemon.pokemon_team'))
 
 
-
-# #----- Pokemon Region ------
-# @pokemon.route('/pokemon_region', methods=['GET', 'POST'])
-# @login_required
-# def pokemon_region():
-#     return render_template('pokemon_region.html')
-
-# if current_user.captured_pokemon.count() >= 5:
-#         flash('You already have 5 pokemon on your team!', 'danger')
-#         return redirect(url_for('main.pokemon_form'))
+# --------- Battle Arena ---------
+@pokemon.route('/battle_arena')
+@login_required
+def battle_arena():
+    users = User.query.all()
+    return render_template('battle_arena.html', users=users)

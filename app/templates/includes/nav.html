@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-customcolor">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{url_for('main.home')}}">Home</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,9 +9,12 @@
           {%if current_user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('pokemon.pokemonapi')}}">Pokedex</a>
-          </li>
+          </li class="nav-item">
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('pokemon.pokemon_team')}}">Pokemon Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('pokemon.battle_arena')}}">Battle Arena</a>
           </li>
           {% else %}         
           <li class="nav-item">

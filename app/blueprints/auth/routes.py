@@ -91,6 +91,6 @@ def edit_profile():
 def logout():
     if current_user:
         logout_user()
-        flash('You have logged out!', 'warning')
+        flash('You have logged out!', 'success')
         return redirect(url_for('auth.login')) 
     

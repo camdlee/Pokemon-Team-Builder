@@ -60,6 +60,15 @@ class User(UserMixin, db.Model):
         self.team.remove(pokemon)
         db.session.commit()
 
+    # check team 
+    def check_team(self, pokemon):
+        if pokemon in self.pokemon:
+            return True
+        else: 
+            return False
+        
+
+
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
