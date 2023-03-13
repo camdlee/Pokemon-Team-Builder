@@ -139,7 +139,7 @@ def battle(id):
         flash(f"It's a tie! Both of your teams are equally matched", 'warning')
         return redirect(url_for('pokemon.battle_arena'))
     else:
-        flash(f"Sorry you lost to {opponent}!", 'danger')
+        flash(f"Sorry you lost to {opponent.first_name}!", 'danger')
         return redirect(url_for('pokemon.battle_arena'))
     
 
