@@ -123,19 +123,29 @@ def battle_arena():
     return render_template('battle_arena.html', users=users)
 
 
+# --------- Battle Opponent ---------
 @pokemon.route('/battle/<int:id>', methods=['GET', 'POST'])
 @login_required
 def battle(id):
     opponent = User.query.get(id)
-    print(opponent)
-    print(opponent.max_attack)
-    if current_user.max_attack() > opponent.max_attack():
+
+    user_final_stats = current_user.max_defense()+current_user.max_hp() - opponent.max_attack()
+    opponent_final_stats = opponent.max_defense()+opponent.max_hp() - current_user.max_attack()
+
+    if user_final_stats > opponent_final_stats:
         flash(f"You won! Your team was stronger than {opponent.first_name}'s team", 'success')
         return redirect(url_for('pokemon.battle_arena'))
-    elif current_user.max_attack() == opponent.max_attack():
+    elif user_final_stats == opponent_final_stats:
         flash(f"It's a tie! Both of your teams are equally matched", 'warning')
         return redirect(url_for('pokemon.battle_arena'))
     else:
         flash(f"Sorry you lost to {opponent}!", 'danger')
         return redirect(url_for('pokemon.battle_arena'))
     
+
+# # --------- View Opponent's Team ---------
+# @pokemon.route('/<opponent>_team', methods=['GET', 'POST'])
+# @login_required
+# def opponent_team(id):
+#     opponent = User.query.get(id)
+

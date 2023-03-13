@@ -15,6 +15,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+                        <a class="btn btn-danger">View Team</a>
                         <a href="{{url_for('pokemon.battle', id=user.id)}}"class="btn btn-danger">Battle!</a>
                     </div>
                 </div>

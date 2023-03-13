@@ -1,0 +1,51 @@
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/pokemon_team.css')}}">
+{% endblock %}
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br>
+<h1>Someone's Team</h1>
+<br>
+  <div class='center-group'>
+    {% if my_team %}
+    <table class="table table-striped table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Sprite</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Ability</th>
+            <th scope="col">Base EXP</th>
+            <th scope="col">Sprite URL</th>
+            <th scope="col">Attack Base Stat</th>
+            <th scope="col">HP Base Stat</th>
+            <th scope="col">Defense Base Stat</th>
+            <th scope="col">Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for pokemon in my_team %}
+            <tr>
+              <th scope="row"><img src="{{pokemon.sprite_url}}" alt="{{pokemon.name}}"></th>
+              <td>{{pokemon.pokemon_name}}</td>
+              <td>{{pokemon.pokemon_type}}</td>
+              <td>{{pokemon.ability}}</td>
+              <td>{{pokemon.base_exp}}</td>
+              <td>{{pokemon.sprite_url}}</td>
+              <td>{{pokemon.attack_base_stat}}</td>
+              <td>{{pokemon.defense_base_stat}}</td>
+              <td>{{pokemon.hp_base_stat}}</td>
+              <td><a href="{{url_for('pokemon.remove', pokemon_name=pokemon.pokemon_name)}}" class="btn btn-primary">Remove</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <br>
+        <div>
+            <small style = 'color:red'>{{error}}</small>  
+        </div>
+    {% endblock %}
+  </div>
