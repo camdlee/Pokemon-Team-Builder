@@ -67,6 +67,26 @@ class User(UserMixin, db.Model):
         else: 
             return False
         
+    # calculates max attack of team
+    def max_attack(self):
+        attack=0
+        for pokemon in self.team:
+            attack += int(pokemon.attack_base_stat)
+        return attack
+    
+    # calculates max defense of team
+    def max_defense(self):
+        defense=0
+        for pokemon in self.team:
+            defense += int(pokemon.defense_base_stat)
+        return defense
+    
+    # calculates max defense of team
+    def max_hp(self):
+        hp=0
+        for pokemon in self.team:
+            hp += int(pokemon.hp_base_stat)
+        return hp
 
 
 @login.user_loader
