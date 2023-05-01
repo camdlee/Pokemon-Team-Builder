@@ -43,7 +43,7 @@ class User(UserMixin, db.Model):
     def update_from_dict(self, data):
         self.first_name = data['first_name']
         self.last_name = data['last_name']
-        self.email = data['email']
+        self.email = self.hash_password(data['password'])
 
     # Save to our database
     def save_to_db(self):
